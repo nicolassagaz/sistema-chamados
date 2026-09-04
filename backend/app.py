@@ -32,8 +32,19 @@ chamados = [
 def inicio():
     return {"mensagem": "Sistema de chamados funcionando"}
 
-
+#endpoint
+#quando acessar get /chamados, retorna a lista chamados
 @app.get("/chamados")
 def listar_chamados():
     return chamados
+
+
+@app.get("/chamados/{id_chamado}")
+def buscar_chamado(id_chamado: int):
+    for chamado in chamados:
+        if chamado["id"] == id_chamado:
+            return chamado
+
+    return {"mensagem": "Chamado não encontrado"}
+
 
