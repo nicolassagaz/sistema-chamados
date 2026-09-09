@@ -1,7 +1,14 @@
 from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
 
 #cria aplicação
 app = FastAPI()
+
+class ChamadoCreate(BaseModel):
+    titulo: str
+    descricao: str
+    prioridade: str
+    solicitante: str
 
 chamados = [
     {
@@ -47,4 +54,21 @@ def buscar_chamado(id_chamado: int):
 
     raise HTTPException(status_code=404, detail="Chamado não encontrado")
 
+@app.post("/chamados", status_code=201)
+def criar_chamado(novo_chamado: ChamadoCreate):
+    novo_id = max(chamado["id"] for chamado in chamados) + 1
 
+    chamado = {
+        "id": novo_id,
+        "titulo": novo_chamado.titulo,
+        "descricao": novo_chamado.descricao,
+        "prioridade": novo_chamado.prioridade,
+        "status": "Aberto",
+        "solicitante": novo_chamado.solicitante,
+        "tecnico": None,
+        "data": "09/09/2026"
+    }
+
+    chamados.append(chamado)
+
+    return chamado
