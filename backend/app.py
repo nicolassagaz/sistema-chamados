@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 
 #cria aplicação
 app = FastAPI()
@@ -45,6 +45,6 @@ def buscar_chamado(id_chamado: int):
         if chamado["id"] == id_chamado:
             return chamado
 
-    return {"mensagem": "Chamado não encontrado"}
+    raise HTTPException(status_code=404, detail="Chamado não encontrado")
 
 
