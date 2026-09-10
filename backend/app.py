@@ -20,6 +20,11 @@ class ChamadoCreate(BaseModel):
 class ChamadoUpdate(BaseModel):
     status: str
 
+class ChamadoPatch(BaseModel):
+    status: str | None = None
+    prioridade: Prioridade | None = None
+    tecnico: str | None = None
+
 chamados = [
     {
         "id": 1010,
@@ -92,4 +97,20 @@ def atualizar_chamado(id_chamado: int, dados: ChamadoUpdate):
             return chamado
 
         raise HTTPException(status_code=404, detail="Chamado não encontrado")
-    
+
+@app.patch("/chamados/{id_chamado}")
+def atualizar_parcialmente(id_chamado: int, dados: ChamadoPatch):
+    for chamado in chamados:
+        if chamado["id"] == id_chamado:
+
+            if dados.status is not None:
+                chamado["status"] =  dados.status
+
+            if dados.prioridade is not None:
+                chamado["prioridade"] = dados.prioridade
+
+            if dados.tecnico is not None:
+                chamado["tecnico"] = dados.tecnico
+
+            return chamado
+    raise HTTPException(status_code=404, detail="Chamado não encontrado")
