@@ -114,3 +114,31 @@ def atualizar_parcialmente(id_chamado: int, dados: ChamadoPatch):
 
             return chamado
     raise HTTPException(status_code=404, detail="Chamado não encontrado")
+
+@app.delete("/chamados/{id_chamado}", status_code=204)
+def escluir_chamado(id_chamado: int):
+    for chamado in chamados:
+        if chamado["id"] == id_chamado:
+            chamados.remove(chamado)
+            return
+    raise HTTPException(status_code=404, detail="Chamado não encontrado")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
