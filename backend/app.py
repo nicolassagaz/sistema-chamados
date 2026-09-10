@@ -1,13 +1,20 @@
+from enum import Enum
+
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 #cria aplicação
 app = FastAPI()
 
+class Prioridade(str, Enum):
+    baixa = "Baixa"
+    media = "Média"
+    alta = "Alta"
+
 class ChamadoCreate(BaseModel):
-    titulo: str
+    titulo: str = Field(min_length=3)
     descricao: str
-    prioridade: str
+    prioridade: Prioridade
     solicitante: str
 
 chamados = [
