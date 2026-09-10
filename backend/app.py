@@ -17,6 +17,9 @@ class ChamadoCreate(BaseModel):
     prioridade: Prioridade
     solicitante: str
 
+class ChamadoUpdate(BaseModel):
+    status: str
+
 chamados = [
     {
         "id": 1010,
@@ -79,3 +82,14 @@ def criar_chamado(novo_chamado: ChamadoCreate):
     chamados.append(chamado)
 
     return chamado
+
+
+@app.put("/chamados/{id_chamado}")
+def atualizar_chamado(id_chamado: int, dados: ChamadoUpdate):
+    for chamado in chamados:
+        if chamado["id"] == id_chamado:
+            chamado["status"] = dados.status
+            return chamado
+
+        raise HTTPException(status_code=404, detail="Chamado não encontrado")
+    
