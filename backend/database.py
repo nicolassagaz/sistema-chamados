@@ -1,12 +1,18 @@
-import psycopg2
+import os
 
-def conectar ():
+import psycopg2
+from dotenv import load_dotenv
+
+load_dotenv()
+
+
+def conectar():
     conexao = psycopg2.connect(
-        host="localhost",
-        database="sistema_chamados",
-        user="postgres",
-        password="010504",
-        port="5432"
+        host=os.getenv("DB_HOST"),
+        database=os.getenv("DB_NAME"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
+        port=os.getenv("DB_PORT")
     )
 
     return conexao

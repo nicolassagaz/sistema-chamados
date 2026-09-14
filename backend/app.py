@@ -60,7 +60,7 @@ def inicio():
 def listar_chamados():
     return chamados
 
-
+#busca chamado
 @app.get("/chamados/{id_chamado}")
 def buscar_chamado(id_chamado: int):
     for chamado in chamados:
@@ -69,6 +69,7 @@ def buscar_chamado(id_chamado: int):
 
     raise HTTPException(status_code=404, detail="Chamado não encontrado")
 
+#criar chamado
 @app.post("/chamados", status_code=201)
 def criar_chamado(novo_chamado: ChamadoCreate):
     novo_id = max(chamado["id"] for chamado in chamados) + 1
@@ -88,7 +89,7 @@ def criar_chamado(novo_chamado: ChamadoCreate):
 
     return chamado
 
-
+#atualizar chamado
 @app.put("/chamados/{id_chamado}")
 def atualizar_chamado(id_chamado: int, dados: ChamadoUpdate):
     for chamado in chamados:
@@ -97,7 +98,8 @@ def atualizar_chamado(id_chamado: int, dados: ChamadoUpdate):
             return chamado
 
         raise HTTPException(status_code=404, detail="Chamado não encontrado")
-
+    
+#atualiza parcialmente 
 @app.patch("/chamados/{id_chamado}")
 def atualizar_parcialmente(id_chamado: int, dados: ChamadoPatch):
     for chamado in chamados:
@@ -115,30 +117,13 @@ def atualizar_parcialmente(id_chamado: int, dados: ChamadoPatch):
             return chamado
     raise HTTPException(status_code=404, detail="Chamado não encontrado")
 
+#Excluir chamados
 @app.delete("/chamados/{id_chamado}", status_code=204)
-def escluir_chamado(id_chamado: int):
+def exmkdircluir_chamado(id_chamado: int):
     for chamado in chamados:
         if chamado["id"] == id_chamado:
             chamados.remove(chamado)
             return
     raise HTTPException(status_code=404, detail="Chamado não encontrado")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
